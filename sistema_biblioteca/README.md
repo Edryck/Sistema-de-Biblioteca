@@ -2,7 +2,7 @@
 
 ---
 
-Um sistema de biblioteca simples desenvolvido em Python. O sistema permite o login de usuário, reconhecendo se é um usuário normal ou o bibliotecário, conta com funcionalidades de adição, edição e exclusão de livros. Este projeto foi feito como um exemplo prático do básico de linguagem Python e aplicando o os principais pilares da Programação Orientada a Objetos.
+Um sistema de biblioteca simples desenvolvido em Python. O sistema permite o login de usuário, reconhecendo se é um usuário normal ou o bibliotecário, conta com funcionalidades de adição, edição e exclusão de livros. Este projeto foi feito como um exemplo prático do básico da linguagem Python e aplicando o os pilares da Programação Orientada a Objetos.
 
 ---
 
@@ -24,7 +24,7 @@ O sistema inclui as seguintes funcionalidades:
 **Linguagem:** Python 3.14.0.  
 **Arquitetura:** MVC (Model-View-Controller)  
 **Interface:** Tkinter.  
-**Banco de Dados:** SQLite.
+**Banco de Dados:** SQLite.  
 **Estrutura de Pastas:** 
 
 ````
