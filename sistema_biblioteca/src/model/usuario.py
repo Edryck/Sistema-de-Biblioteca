@@ -19,6 +19,6 @@ class Usuario:
     def senha(self):
         return self.__senha
     
-    @nome.setter
+    @senha.setter
     def senha(self, nova_senha):
         self.__senha = nova_senha

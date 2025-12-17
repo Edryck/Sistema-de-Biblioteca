@@ -21,7 +21,7 @@ O sistema inclui as seguintes funcionalidades:
 
 ### Tecnologias Usadas
 
-**Linguagem:** Python 3.14.0.  
+**Linguagem:** Python 3.13.0.  
 **Arquitetura:** MVC (Model-View-Controller)  
 **Interface:** Tkinter.  
 **Banco de Dados:** SQLite.  
@@ -36,7 +36,7 @@ sistema_biblioteca/
 │   └─ biblioteca.db 
 └─ src/
     ├─ controller/
-    ├─ database/
+    ├─ dao/
     ├─ model/
     └─ view/ 
 ````  
@@ -45,7 +45,7 @@ sistema_biblioteca/
 + **dados:** Onde ficará os arquivos salvos.
 + **src:** Onde vai ficar todo o código fonte.
 + **controller:** Aqui fica os controladores do sistema.
-+ **database:** Conexão com o banco de dados e o DAO.
++ **dao:** Conexão com o banco de dados e o DAO.
 + **model:** Aqui fica os objetos/classes.
 + **view:** Aqui fica as interfaces.
 
