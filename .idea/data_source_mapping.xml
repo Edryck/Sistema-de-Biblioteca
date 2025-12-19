@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/.idea/queries/Query_2.sql" value="3ffef890-b336-4e01-aaaa-4966662b2195" />
+    <file url="file://$PROJECT_DIR$/sistema_biblioteca/src/dao/livro_dao.py" value="3ffef890-b336-4e01-aaaa-4966662b2195" />
+    <file url="file://$PROJECT_DIR$/sistema_biblioteca/src/dao/usuario_dao.py" value="27b0b776-1959-453f-b350-f0cb6268e320" />
+  </component>
+</project>
