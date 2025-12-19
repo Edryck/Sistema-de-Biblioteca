@@ -3,13 +3,12 @@ from sistema_biblioteca.src.dao.usuario_dao import UsuariosDAO
 from sistema_biblioteca.src.model.usuario import Usuario
 
 
-def cadastrar_usuario(nome, senha):
+def cadastrarUsuario(nome, senha):
     dao = UsuariosDAO()
-    dao.nome = nome
-    dao.senha = senha
+    resultados = dao.buscarUsuario(nome)
 
-    sucesso = dao.inserirUsuario(nome, senha)
-    if sucesso:
-        return sucesso
-    else:
-        return False
+    if resultados is None:
+        sucesso = dao.inserirUsuario(nome, senha)
+        if sucesso:
+            return sucesso
+    return False

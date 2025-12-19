@@ -44,9 +44,6 @@ class Usuario:
     def devolverLivro(self):
         pass
 
-    def pagarMulta(self):
-        pass
-
     def cadastrarLivro(self):
         pass
 

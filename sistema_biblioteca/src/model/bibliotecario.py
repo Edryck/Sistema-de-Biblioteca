@@ -1,8 +1,5 @@
-from xmlrpc.client import FastParser
-
-from sistema_biblioteca.src.controller import livro_controller
+from sistema_biblioteca.src.controller import livro_controller, usuario_controller
 from sistema_biblioteca.src.model.usuario import Usuario
-from sistema_biblioteca.src.controller.livro_controller import LivroDAO
 
 
 class Bibliotecario (Usuario):
@@ -28,7 +25,7 @@ class Bibliotecario (Usuario):
         return False
 
     def alterarUsuario(self, nome, senha, idUsuario):
-        sucesso = usuario_controller.alterarUsuario(nome, senha, idUsuario)
+        sucesso = usuario_controller.editarUsuario(nome, senha, idUsuario)
         if sucesso:
             return True
         return False

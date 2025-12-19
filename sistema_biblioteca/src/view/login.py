@@ -1,13 +1,12 @@
 from tkinter import *
 from tkinter import messagebox
 from sistema_biblioteca.src.controller import autenticar_login
-from sistema_biblioteca.src.view.admin.telas_admin import TelaAdmin
 from sistema_biblioteca.src.view.user import telas_user
 from sistema_biblioteca.src.view.admin import telas_admin
 
 class Application:
     # Estrutura da tela de login
-    def __init__(self, master=None):
+    def __init__(self, master):
         self.root = master
         self.root.title("Sistema de Biblioteca - Login")
         self.root.geometry("500x350")
@@ -20,16 +19,19 @@ class Application:
         self.mensagem.pack(pady=20)
 
         # Formulário de Login
-        self.formulario = LabelFrame(self.root, text="Login")
-        self.formulario.pack(ipadx=20, expand=True, fill="y")
+        self.formulario = LabelFrame(self.root)
+        self.formulario["text"] = "Login"
+        self.formulario.pack(ipadx=20, ipady=20, expand=True)
 
         # Campo de adicionar o nome do usuário
         self.conteiner1 = Frame(self.formulario)
         self.conteiner1.pack(padx=20)
+
         self.usuarioLabel = Label(self.conteiner1)
         self.usuarioLabel["text"] = "Usuário: "
         self.usuarioLabel["width"] = 7
         self.usuarioLabel.pack(pady=10, side=LEFT)
+
         self.campoUsuario = Entry(self.conteiner1)
         self.campoUsuario["width"] = 30
         self.campoUsuario.pack(pady=10, side=LEFT)
@@ -37,10 +39,12 @@ class Application:
         # Campo de adicionar a senha do usuário
         self.conteiner2 = Frame(self.formulario)
         self.conteiner2.pack(padx=20)
+
         self.senhaLabel = Label(self.conteiner2)
         self.senhaLabel["text"] = "Senha: "
         self.senhaLabel["width"] = 7
         self.senhaLabel.pack(pady=10, side=LEFT)
+
         self.campoSenha = Entry(self.conteiner2)
         self.campoSenha["width"] = 30
         self.campoSenha["show"] = "*"
@@ -86,7 +90,7 @@ class Application:
             self.formulario.destroy()
             self.mensagem.destroy()
             telas_admin.TelaAdmin(self.root)
-        # Caso seja o usuário comum
+        # Caso seja o usuário comum (leitor)
         else:
             # Verifica se está cadastrado
             sucesso = autenticar_login.entrar(usuario, senha)

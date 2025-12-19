@@ -11,7 +11,7 @@ class CadPrincipal:
 
         # Formulário de Login
         self.formulario = LabelFrame(self.root, text="Cadastro")
-        self.formulario.pack(ipadx=20, expand=True, fill="y")
+        self.formulario.pack(ipadx=20, expand=True)
 
         self.mensagem = Label(
             self.formulario,
@@ -31,13 +31,15 @@ class CadPrincipal:
         self.campoUsuario["width"] = 30
         self.campoUsuario.pack(pady=10, side=LEFT)
 
-        # Campo de adicionar a senha do usuário
         self.conteiner2 = Frame(self.formulario)
         self.conteiner2.pack(padx=20)
+
+        # Campo de adicionar a senha do usuário
         self.senhaLabel = Label(self.conteiner2)
         self.senhaLabel["text"] = "Senha: "
         self.senhaLabel["width"] = 7
         self.senhaLabel.pack(pady=10, side=LEFT)
+
         self.campoSenha = Entry(self.conteiner2)
         self.campoSenha["width"] = 30
         self.campoSenha["show"] = "*"
@@ -48,7 +50,7 @@ class CadPrincipal:
         self.botaoCadastro["text"] = "Cadastrar"
         self.botaoCadastro["font"] = ("Calibri", "8")
         self.botaoCadastro["width"] = 12
-        self.botaoCadastro["command"] = self.cad_usuario
+        self.botaoCadastro["command"] = self.cadUsuario
         self.botaoCadastro.pack()
 
         # Botão de voltar
@@ -65,13 +67,13 @@ class CadPrincipal:
         self.formulario.destroy()
         login.Application(self.root)
 
-    def cad_usuario(self):
+    def cadUsuario(self):
         usuario = self.campoUsuario.get()
         senha = self.campoSenha.get()
         if usuario == "" or senha == "":
             messagebox.showerror("Erro", "Informe os campos")
         else:
-            sucesso = criar_usuario.cadastrar_usuario(usuario, senha)
+            sucesso = criar_usuario.cadastrarUsuario(usuario, senha)
             if sucesso:
                 messagebox.showinfo("Sucesso!", " Usuário cadastrado com sucesso!")
                 self.voltar

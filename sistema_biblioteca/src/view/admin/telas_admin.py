@@ -1,19 +1,17 @@
 from tkinter import *
 from tkinter import messagebox, ttk
 
-from sistema_biblioteca.src.controller import livro_controller
+from sistema_biblioteca.src.controller import livro_controller, usuario_controller
 from sistema_biblioteca.src.model.bibliotecario import Bibliotecario
 
 class TelaAdmin:
-    def __init__(self, root):
-        self.root = root
-        self.principal()
-
-    def principal(self):
+    def __init__(self, master):
+        self.root = master
         self.root.title("Sistema de Biblioteca - Administrador", )
         self.root.geometry("445x550")
 
-        self.borda = LabelFrame(self.root, background="#e9e9e9")
+        self.borda = LabelFrame(self.root)
+        self.borda["background"] = "#e9e9e9"
         self.borda.pack(ipady=3, ipadx=3, expand=True, fill="y")
         self.conteinerPrincipal = Frame(self.borda)
         self.conteinerPrincipal.pack(pady=20, padx=20, expand=True, fill=BOTH)
@@ -22,33 +20,47 @@ class TelaAdmin:
         scrollbar = ttk.Scrollbar(self.conteinerPrincipal, orient="vertical")
         scrollbar.pack(side=RIGHT, fill="y")
 
-        self.mensagem = Label(
-            self.conteinerPrincipal,
-            text="Bem-vindo à Biblioteca",
-            font=("Arial", 15, "bold")
-        )
-        self.mensagem.pack(pady=10)
+        self.mensagem = Label(self.conteinerPrincipal)
+        self.mensagem["text"] = "Bem-vindo à Biblioteca"
+        self.mensagem["font"] = ("Arial", 15, "bold")
+        self.mensagem.pack(pady=5)
 
-        self.conteinerConsulta = LabelFrame(self.conteinerPrincipal, text="Pesquisar Livro")
+        Button(self.conteinerPrincipal, text="Sair", command=self.sair).pack()
+
+        self.conteinerConsulta = LabelFrame(self.conteinerPrincipal)
+        self.conteinerConsulta["text"] = "Pesquisar Livro"
         self.conteinerConsulta.pack(padx=10, pady=10, expand=True, fill="x")
 
         self.consultarLivro = Entry(self.conteinerConsulta)
         self.consultarLivro["width"] = 30
         self.consultarLivro.pack(pady=20, side=LEFT, expand=True, fill="x")
+
         self.buscar = Button(self.conteinerConsulta)
         self.buscar["command"] = self.buscarLivro
         self.buscar["text"] = "Buscar Livro"
         self.buscar.pack(pady=20, padx=5, side=RIGHT)
 
-        self.conteinerCadastro = LabelFrame(self.conteinerPrincipal, text="Adicionar/Remover/Editar Livro")
+        self.abas = ttk.Notebook(self.conteinerPrincipal)
+        self.abas.pack(fill=BOTH, expand=True)
+
+        # O conteiner principal de cada aba
+        self.abaLivros = Frame(self.abas)
+        self.abaUsuarios = Frame(self.abas)
+
+        # Adição das abas
+        self.abas.add(self.abaLivros, text="Gerenciar Livros")
+        self.abas.add(self.abaUsuarios, text="Gerenciar Usuários")
+
+        self.conteinerCadastro = LabelFrame(self.abaLivros)
+        self.conteinerCadastro["text"] = "Adicionar/Remover/Editar Livro"
         self.conteinerCadastro.pack(padx=10, pady=10, expand=True, fill="x")
 
         # Função para criar os campos de input
         def criarCampo(frame, texto):
-            f = Frame(frame)
-            f.pack(pady=2)
-            Label(f, text=texto, width=15, anchor="e").pack(side=LEFT)
-            entry = Entry(f, width=30)
+            conteiner = Frame(frame)
+            conteiner.pack(pady=2)
+            Label(conteiner, text=texto, width=15, anchor="e").pack(side=LEFT)
+            entry = Entry(conteiner, width=30)
             entry.pack(side=LEFT)
             return entry
 
@@ -66,15 +78,18 @@ class TelaAdmin:
         Label(self.conteinerCadastro, text=f"OBS: Para deletar o livro coloque o ISBN dele e clica deletar,\npara alterar adicione o ISBN e altere os dados titulo e autor.").pack()
 
         # Lista dos livros do banco de dados
-        self.conteinerLista = LabelFrame(self.conteinerPrincipal, text="Acervo da Biblioteca")
-        self.conteinerLista.pack(pady=10, padx=10, expand=True, fill=BOTH)
+        self.conteinerLista = LabelFrame(self.abaLivros)
+        self.conteinerLista["text"] = "Acervo da Biblioteca"
+        self.conteinerLista.pack(pady=10, padx=10, expand=True, fill="x")
 
         # Botão para atualizar a lista
         Button(self.conteinerLista, text="Atualizar Lista", command=self.carregarLista).pack(anchor="e")
 
         # Lista de livros
         colunas = ("ID", "Título", "Autor", "ISBN")
-        self.tree = ttk.Treeview(self.conteinerLista, columns=colunas, show="headings")
+        self.tree = ttk.Treeview(self.conteinerLista)
+        self.tree["columns"] = colunas
+        self.tree["show"] = "headings"
 
         self.tree.heading("ID", text="ID")
         self.tree.heading("Título", text="Título")
@@ -87,17 +102,21 @@ class TelaAdmin:
         self.tree.column("ISBN", width=75)
 
         # Barra de rolagem da lista
-        scrollbar = ttk.Scrollbar(self.conteinerLista, orient="vertical", command=self.tree.yview)
-        self.tree.configure(yscroll=scrollbar.set)
-        scrollbar.pack(side=RIGHT, fill="y")
+        scrollbar0 = ttk.Scrollbar(self.conteinerLista)
+        scrollbar0["orient"] = "vertical"
+        scrollbar0["command"] = self.tree.yview
+        self.tree.configure(yscroll=scrollbar0.set)
+        scrollbar0.pack(side=RIGHT, fill="y")
         self.tree.pack(fill=BOTH, expand=True)
 
         # Carrega a lista quando abre a tela
         self.carregarLista()
 
-        self.conteinerGerenciarUsuarios = LabelFrame(self.conteinerPrincipal, text="Gerenciar Usuários")
+        self.conteinerGerenciarUsuarios = LabelFrame(self.abaUsuarios)
+        self.conteinerGerenciarUsuarios["text"] = "Atualizar/Deletar Usuários"
+        self.conteinerGerenciarUsuarios.pack(pady=10, padx=10, expand=True, fill="x")
 
-        self.idUsuario = criarCampo(self.conteinerGerenciarUsuarios, "Id do Usuário:")
+        self.idUsuario = criarCampo(self.conteinerGerenciarUsuarios, "Id:")
         self.nomeUsuario = criarCampo(self.conteinerGerenciarUsuarios, "Nome do Usuário:")
         self.senhaUsuario = criarCampo(self.conteinerGerenciarUsuarios, "Senha de Usuário:")
 
@@ -106,6 +125,38 @@ class TelaAdmin:
 
         Button(self.opcoes1, text="Atualizar Usuário", command=self.atualizarUsuario).pack(pady=10, side=LEFT, )
         Button(self.opcoes1, text="Deletar Usuário", command=self.deletarUsuario).pack(pady=10, side=LEFT, )
+
+        # Lista dos usuário do banco de dados
+        self.conteinerUsuario = LabelFrame(self.abaUsuarios)
+        self.conteinerUsuario["text"] = "Usuários da Biblioteca"
+        self.conteinerUsuario.pack(pady=10, padx=10, expand=True, fill="x")
+
+        # Botão para atualizar a lista
+        Button(self.conteinerUsuario, text="Atualizar Lista", command=self.carregarListaUsuarios).pack(anchor="e")
+
+        # Lista de livros
+        colunasLU = ("IDUsuario", "NomeUsuario", "SenhaUsuario")
+        self.treeU = ttk.Treeview(self.conteinerUsuario)
+        self.treeU["columns"] = colunasLU
+        self.treeU["show"] = "headings"
+
+        self.treeU.heading("IDUsuario", text="ID")
+        self.treeU.heading("NomeUsuario", text="Nome do Usuário")
+        self.treeU.heading("SenhaUsuario", text="Senha do Usuário")
+
+        self.treeU.column("IDUsuario", width=25, anchor="center")
+        self.treeU.column("NomeUsuario", width=150)
+        self.treeU.column("SenhaUsuario", width=100)
+
+        # Barra de rolagem da lista
+        scrollbar1 = ttk.Scrollbar(self.conteinerUsuario)
+        scrollbar1["orient"] = "vertical"
+        scrollbar1["command"] = self.treeU.yview
+        self.tree.configure(yscroll=scrollbar1.set)
+        scrollbar1.pack(side=RIGHT, fill="y")
+        self.treeU.pack(fill=BOTH, expand=True)
+
+        self.carregarListaUsuarios()
 
     def buscarLivro(self):
         token = self.consultarLivro.get()
@@ -184,7 +235,44 @@ class TelaAdmin:
                 self.tree.insert("", "end", values=(livro[0], livro[1], livro[2], livro[3]))
 
     def atualizarUsuario(self):
-        pass
+        bibliotecario = Bibliotecario()
+
+        nome = self.nomeUsuario.get()
+        senha = self.senhaUsuario.get()
+
+        sucesso = bibliotecario.alterarUsuario(nome, senha)
+        if sucesso:
+            messagebox.showinfo("Dados atualizados!", f"Os dados do usuário {nome} foram atualizados com sucesso!")
+            self.nomeUsuario.delete(0, END)
+            self.senhaUsuario.delete(0, END)
+            self.carregarListaUsuarios()
+        else:
+            messagebox.showerror("Erro", "Não foi possível atualizar os dados deste usuário!")
 
     def deletarUsuario(self):
-        pass
+        bibliotecario = Bibliotecario()
+
+        id = self.idUsuario.get()
+
+        sucesso = bibliotecario.deletarUsuario(id)
+        if sucesso:
+            messagebox.showinfo("Usuário excluído!", f"O usuário foi apagado com sucesso!")
+            self.idUsuario.delete(0, END)
+            self.carregarListaUsuarios()
+        else:
+            messagebox.showerror("Erro", "Não foi possível excluir este usuário!")
+
+    def carregarListaUsuarios(self):
+        for usuario in self.treeU.get_children():
+            self.treeU.delete(usuario)
+
+        usuarios = usuario_controller.listarUsuarios()
+
+        if usuarios is not None:
+            for usuario in usuarios:
+                self.treeU.insert("", "end", values=(usuario[0], usuario[1], usuario[2]))
+
+    def sair(self):
+        from sistema_biblioteca.src.view import login
+        self.borda.destroy()
+        login.Application(self.root)

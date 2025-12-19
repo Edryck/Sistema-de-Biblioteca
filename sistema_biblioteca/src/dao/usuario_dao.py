@@ -17,7 +17,6 @@ class UsuariosDAO(object):
 
             database.conexao.commit()
             c.close()
-
             return True
         except Exception as e:
             print(f"Ocorreu um erro na inserção: {e}")
@@ -30,11 +29,10 @@ class UsuariosDAO(object):
             c = database.conexao.cursor()
 
             sql = "update usuarios set nome = ?, senha = ? where idUsuario = ?"
-            c.execute(sql, (nome, senha, idUsuario, ))
+            c.execute(sql, (nome, senha, idUsuario,))
 
             database.conexao.commit()
             c.close()
-
             return True
         except Exception as e:
             print(f"Ocorreu um erro na alteração: {e}")
@@ -47,11 +45,10 @@ class UsuariosDAO(object):
             c = database.conexao.cursor()
 
             sql = "delete from usuarios where idUsuario = ?"
-            c.execute(sql, idUsuario)
+            c.execute(sql, (idUsuario,))
 
             database.conexao.commit()
             c.close()
-
             return "Usuário excluído com sucesso!"
         except Exception as e:
             return f"Ocorreu um erro ao excluir: {e}"
@@ -63,11 +60,10 @@ class UsuariosDAO(object):
             c = database.conexao.cursor()
 
             sql = "select * from usuarios where idUsuario = ? or nome = ?"
-            c.execute(sql, (termo, termo, ))
+            c.execute(sql, (termo, termo,))
             linha = c.fetchone()
 
             c.close()
-
             if linha:
                 self.idUsuario = linha[0]
                 self.nome = linha[1]
@@ -77,4 +73,23 @@ class UsuariosDAO(object):
                 return None
         except Exception as e:
             print(f"Ocorreu um erro na busca: {e}")
+            return None
+
+    def listarUsuarios(self):
+        database = Database()
+        try:
+            c = database.conexao.cursor()
+
+            sql = "select * from usuarios"
+            c.execute(sql)
+
+            usuarios = c.fetchall()
+
+            c.close()
+            if usuarios is None:
+                return None
+            else:
+                return usuarios
+        except Exception as e:
+            print(f"Ocorreu um erro ao listar os usuarios: {e}")
             return None

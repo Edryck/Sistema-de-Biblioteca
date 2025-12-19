@@ -13,8 +13,7 @@ def validarLivro(titulo, autor, isbn, disponivel):
     if livro is not None:
         if livro[1] == titulo or livro[3] == isbn:
             return False
-        return True
-    return False
+    return True
 
 def pesquisarLivro(token):
     dao = LivroDAO()
@@ -50,9 +49,9 @@ def editarLivro(titulo, autor, isbn):
     if disponibilidade:
         sucesso = dao.atualizarLivro(titulo, autor, isbn)
         # Verifica se foi atualizado
-        if sucesso:
-            return True
-    return False
+        if not sucesso:
+            return False
+    return True
 
 # Lista todos os livros do banco de dados, mas não pensei em nenhuma validação para colocar aqui
 def listarLivros():

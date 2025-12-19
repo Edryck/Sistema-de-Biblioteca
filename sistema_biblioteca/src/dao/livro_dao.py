@@ -16,7 +16,7 @@ class LivroDAO(object):
             c = database.conexao.cursor()
 
             sql = "insert into livros (titulo, autor, isbn, disponivel) values (?, ?, ?, ?)"
-            c.execute(sql, (titulo, autor, isbn, disponivel))
+            c.execute(sql, (titulo, autor, isbn, disponivel,))
 
             database.conexao.commit()
             c.close()
@@ -67,7 +67,7 @@ class LivroDAO(object):
             c = database.conexao.cursor()
 
             sql = "select * from livros where titulo = ? or autor = ? or isbn = ?"
-            c.execute(sql, (termo, termo, termo))
+            c.execute(sql, (termo, termo, termo,))
 
             linha = c.fetchone()
 
@@ -91,7 +91,8 @@ class LivroDAO(object):
         try:
             c = database.conexao.cursor()
 
-            c.execute("select * from livros")
+            sql = "select * from livros"
+            c.execute(sql)
 
             livros= c.fetchall()
 
@@ -121,4 +122,36 @@ class LivroDAO(object):
             return False
         except Exception as e:
             print(f"Ocorreu um erro ao verificar a disponibilidade do livro: {e}")
+            return False
+
+    def emprestarLivro(self, idLivro):
+        database = Database()
+        try:
+            c = database.conexao.cursor()
+
+            sql = "update livros set disponivel = 0 where idLivro = ?"
+            c.execute(sql, (idLivro,))
+
+            database.conexao.commit()
+            c.close()
+
+            return True
+        except Exception as e:
+            print(f"Ocorreu um erro no empréstimo do livro: {e}")
+            return False
+
+    def devolverLivro(self, idLivro):
+        database = Database()
+        try:
+            c = database.conexao.cursor()
+
+            sql = "update livros set disponivel = 1 where idLivro = ?"
+            c.execute(sql, (idLivro,))
+
+            database.conexao.commit()
+            c.close()
+
+            return True
+        except Exception as e:
+            print(f"Ocorreu um erro na devolução do livro: {e}")
             return False
