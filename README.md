@@ -52,29 +52,23 @@ sistema_biblioteca/
 **Arquivos:**
 + **main.py:** Ponto de partida.
 + **README.md:** Explicação do projeto.
-+ **requirements.txt:** Lista de bibliotecas que serão utilizadas.
++ **requirements.txt:** Lista de bibliotecas que serão utilizadas. (Não foi utilizada nenhuma biblioteca externa, foi utilizado as que são nativas do Python tanto para a interface gráfica quanto para o banco de dados)
 + **biblioteca.db:** O banco de dados do sistema.
 
 ---
 
 ### Como executar o projeto
 
-**Pré-Requisitos:** Certifique de ter o Python 3.x instalado no seu computador.  
+**Pré-Requisitos:** Certifique de ter o Python 3.13 instalado no seu computador.  
 **Clone o repositório:**  
 
 ````
 git clone https://github.com/Edryck/Sistema-de-Biblioteca.git
-
-````
-
-**Instale as dependências:**  
-
-````
-pip install -r requirements.txt
 ````
 
 **Execute o projeto:**  
 
+Abra o terminal na pasta em que você clonou o repositório e digite o seguinte comando:
 ````
 python main.py
 ````
